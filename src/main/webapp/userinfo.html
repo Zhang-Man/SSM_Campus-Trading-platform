@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+	<script type="text/javascript"></script>
+	<script language="javascript"  src="js/userinfo.js"></script>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<a>个人信息</a>
+	<!--<form  method="post" action="/Sub/user/ChangeInfo" >-->
+	<input type="text" id="username" name="username" value=""/>
+	<button id='changeInfo' type="submit">提交</button>
+	<!--</form>-->
+	<br/>
+	<a>会员信息</a>
+	<input type="text" id="vip" name="vip" value=""/>
+	<br/>
+	
+	<!--<a href="/Sub/user/ToChangeP"> <i class="fa fa-circle text-success"></i>修改密码</a>-->
+	<a>修改密码</a>
+	<!--<form  method="post" action="/Sub/user/ChangeP" >-->
+	<input type="text" id = "password" name="password"/>
+	<input type="text" id = "twicepassword" name="twicepassword"/>
+	<br/>
+	<button id = "changePsubmit" type="submit">提交</button>
+	<!--</form>-->
+	
+	<br/>
+	<a href="/Sub/myactivities.html"> <i class="fa fa-circle text-success"></i>我的活动</a>
+	<br/>
+	<button id = "ToVip" type="submit">注册或续费会员</button>
+	
+</body>
+</html>                                   

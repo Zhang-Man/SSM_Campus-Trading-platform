@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.substitute.dao.ActivitiesDao" >
+  <resultMap id="BaseResultMap" type="com.substitute.entity.Activities" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="time" property="time" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="CHAR" />
+    <result column="sponsorid" property="sponsorid" jdbcType="INTEGER" />
+    <result column="receiverid" property="receiverid" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="overtime" property="overtime" jdbcType="TIMESTAMP" />
+    <result column="satisfaction" property="satisfaction" jdbcType="INTEGER" />
+    <result column="introduction" property="introduction" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, type, time, address, sponsorid, receiverid, price, status, createtime, overtime, 
+    satisfaction, introduction
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.substitute.entity.ActivitiesExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from activities
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from activities
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+   <select id="SelectAllActivities" resultType="com.substitute.entity.Activities" parameterType="java.util.Map">
+  select * from activities 
+  where type in
+  <foreach item="item" index="index" collection="types" open="(" separator="," close=")">  
+      #{item}  
+  </foreach> 
+  and price &lt; #{map.topprice,jdbcType=INTEGER} 
+  and price &gt; #{map.botprice,jdbcType=INTEGER}
+  and status = 0;
+  </select>
+  <select id="SelectAllActivitiesWithStatus" resultType="com.substitute.entity.Activities">
+  select * from activities 
+  where status=0;
+  </select>
+  <select id="SelectAllActivitiesWithSAndV" resultType="com.substitute.entity.Activities">
+  select * from activities 
+  where (select usertype from users where id=sponsorid)=2 
+  and status=0;
+  </select>
+   <select id="SelectAllActivitiesWithSAndNV" resultType="com.substitute.entity.Activities">
+  select * from activities 
+  where (select usertype from users where id=sponsorid)=0 
+  and status=0;
+  </select>
+  <select id="SelectMyAcceptActivitiesWithStatus" parameterType="com.substitute.entity.Activities" resultType="com.substitute.entity.Activities">
+  	select * from activities
+  	where receiverid = #{receiverid,jdbcType=INTEGER}
+  	and status = #{status,jdbcType=INTEGER}
+  </select>
+  <select id="SelectMyActivitiesWithStatus" parameterType="com.substitute.entity.Activities" resultType="com.substitute.entity.Activities">
+  	select * from activities
+  	where sponsorid = #{sponsorid,jdbcType=INTEGER}
+  	and status = #{status,jdbcType=INTEGER}
+  </select>
+  <select id="SelectAllMyActivities" parameterType="com.substitute.entity.Activities" resultType="com.substitute.entity.Activities">
+  select * from activities
+  where sponsorid = #{sponsorid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from activities
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.substitute.entity.ActivitiesExample" >
+    delete from activities
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.substitute.entity.Activities" >
+    insert into activities (id, type, time, 
+      address, sponsorid, receiverid, 
+      price, status, createtime, 
+      overtime, satisfaction, introduction
+      )
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{time,jdbcType=INTEGER}, 
+      #{address,jdbcType=CHAR}, #{sponsorid,jdbcType=INTEGER}, #{receiverid,jdbcType=INTEGER}, 
+      #{price,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
+      #{overtime,jdbcType=TIMESTAMP}, #{satisfaction,jdbcType=INTEGER}, #{introduction,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.substitute.entity.Activities" >
+    insert into activities
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="time != null" >
+        time,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="sponsorid != null" >
+        sponsorid,
+      </if>
+      <if test="receiverid != null" >
+        receiverid,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="overtime != null" >
+        overtime,
+      </if>
+      <if test="satisfaction != null" >
+        satisfaction,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        #{time,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=CHAR},
+      </if>
+      <if test="sponsorid != null" >
+        #{sponsorid,jdbcType=INTEGER},
+      </if>
+      <if test="receiverid != null" >
+        #{receiverid,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="overtime != null" >
+        #{overtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="satisfaction != null" >
+        #{satisfaction,jdbcType=INTEGER},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.substitute.entity.ActivitiesExample" resultType="java.lang.Integer" >
+    select count(*) from activities
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update activities
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=INTEGER},
+      </if>
+      <if test="record.time != null" >
+        time = #{record.time,jdbcType=INTEGER},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=CHAR},
+      </if>
+      <if test="record.sponsorid != null" >
+        sponsorid = #{record.sponsorid,jdbcType=INTEGER},
+      </if>
+      <if test="record.receiverid != null" >
+        receiverid = #{record.receiverid,jdbcType=INTEGER},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.overtime != null" >
+        overtime = #{record.overtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.satisfaction != null" >
+        satisfaction = #{record.satisfaction,jdbcType=INTEGER},
+      </if>
+      <if test="record.introduction != null" >
+        introduction = #{record.introduction,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update activities
+    set id = #{record.id,jdbcType=INTEGER},
+      type = #{record.type,jdbcType=INTEGER},
+      time = #{record.time,jdbcType=INTEGER},
+      address = #{record.address,jdbcType=CHAR},
+      sponsorid = #{record.sponsorid,jdbcType=INTEGER},
+      receiverid = #{record.receiverid,jdbcType=INTEGER},
+      price = #{record.price,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      overtime = #{record.overtime,jdbcType=TIMESTAMP},
+      satisfaction = #{record.satisfaction,jdbcType=INTEGER},
+      introduction = #{record.introduction,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.substitute.entity.Activities" >
+    update activities
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="time != null" >
+        time = #{time,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=CHAR},
+      </if>
+      <if test="sponsorid != null" >
+        sponsorid = #{sponsorid,jdbcType=INTEGER},
+      </if>
+      <if test="receiverid != null" >
+        receiverid = #{receiverid,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="overtime != null" >
+        overtime = #{overtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="satisfaction != null" >
+        satisfaction = #{satisfaction,jdbcType=INTEGER},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.substitute.entity.Activities" >
+    update activities
+    set type = #{type,jdbcType=INTEGER},
+      time = #{time,jdbcType=INTEGER},
+      address = #{address,jdbcType=CHAR},
+      sponsorid = #{sponsorid,jdbcType=INTEGER},
+      receiverid = #{receiverid,jdbcType=INTEGER},
+      price = #{price,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      overtime = #{overtime,jdbcType=TIMESTAMP},
+      satisfaction = #{satisfaction,jdbcType=INTEGER},
+      introduction = #{introduction,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

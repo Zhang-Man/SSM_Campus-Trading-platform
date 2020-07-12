@@ -1,0 +1,7 @@
+.btn-primary:hover,
+.btn-primary:not([disabled]):not(.disabled).active,
+.btn-primary:not([disabled]):not(.disabled):active,
+.show>.btn-primary.dropdown-toggle {
+	border-color: #8b39ef;
+	background-color: #8b39ef;
+}

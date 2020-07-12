@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>ZhangSan</title>
+
+		<!-- CSS -->
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+		<link rel="stylesheet" href="assets/login/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="assets/login/css/form-elements.css">
+		<link rel="stylesheet" href="assets/login/css/style.css">
+		<link rel="stylesheet" href="assets/login/font-awesome/css/font-awesome.min.css">
+
+
+
+
+
+
+		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+		<!-- Favicon and touch icons -->
+		<link rel="shortcut icon" href="assets/login/ico/favicon.png">
+		<link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/login/ico/apple-touch-icon-144-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/login/ico/apple-touch-icon-114-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/login/ico/apple-touch-icon-72-precomposed.png">
+		<link rel="apple-touch-icon-precomposed" href="assets/login/ico/apple-touch-icon-57-precomposed.png">
+
+	</head>
+
+	<body>
+
+		<!-- Top content -->
+		<div class="top-content">
+
+			<div class="inner-bg">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-8 col-sm-offset-2 text">
+							<h1><strong>Zhangsan</strong> Login</h1>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-6 col-sm-offset-3 form-box">
+							<div class="form-top">
+								<div class="form-top-left">
+									<h3>Login</h3>
+									<p>Please Enter your username and password to log on:</p>
+								</div>
+								<div class="form-top-right">
+									<i class="fa fa-lock"></i>
+								</div>
+							</div>
+							<div class="form-bottom">
+								<div role="form" align="center">
+									<div class="form-group">
+										<label class="sr-only" for="form-username">Username</label>
+										<input type="text" name="username" placeholder="用户名" required autofocus class="form-username form-control" id="username">
+									</div>
+									<div class="form-group">
+										<label class="sr-only" for="form-password">Password</label>
+										<input type="password" name="password" placeholder="密码" class="form-password form-control" id="pw">
+									</div>
+									<input type="text" name="code_two" id="code_two" style="display:none">
+									<button class="btn btn-primary " style="font: 500%; width: 70%;" id="loginbutton" onclick="login()" type="submit">登录</button>
+
+								</div>
+								<div class="row">
+									<div class="col-sm-6 col-sm-offset-3 social-login ">
+										<h3>or login with:</h3>
+										<div class="social-login-buttons">
+											<button type="button" class="btn btn-link-2" data-toggle="modal" data-target="#TelModal">
+												<i class="fa fa-phone"></i> Tel
+											</button>
+											<!--Tel Login-->
+											<div class="modal fade" id="TelModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+															<h4 class="modal-title" id="myModalLabel">Tel Login</h4>
+														</div>
+														<div class="modal-body">
+															<div class="form-signin">
+																<input type="text" class="form-control" name="tel" id="tel" placeholder="电话号码">
+																<button type="button" class="btn btn-default" onclick="telcode()" id="getphonecode">获取验证码</button><br>
+																<input type="text" class="form-control" name="code" id="phonecode" placeholder="验证码">
+															</div>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+															<button class="btn btn-primary" id="check" onclick="tellogin()" type="submit">登录</button>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<button type="button" class="btn btn-link-2" data-toggle="modal" data-target="#MailModal">
+												<i class="fa fa-envelope-o"></i> Mail
+											</button>
+											<!-- Mail Login-->
+											<div class="modal fade" id="MailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+															<h4 class="modal-title" id="myModalLabel">Mail Login</h4>
+														</div>
+														<div class="modal-body">
+															<div class="form-signin">
+																<input type="text" class="form-control" name="mail" id="email" placeholder="邮箱">
+																<button type="button" class="btn btn-default" onclick="emailcode()" id="getmailcode">获取验证码</button>
+																<br>
+																<input type="text" class="form-control" name="code" id="mailcode" placeholder="验证码">
+
+															</div>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+															<button class="btn btn-primary"  id="check" onclick="emaillogin()" type="submit">登录</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											
+											
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-6 col-sm-offset-3 social-login ">
+										<h3>register:</h3>
+										<div class="social-login-buttons">
+											<button type="button" class="btn btn-link-2" data-toggle="modal" data-target="#UserRegister">
+												<i></i> register
+											</button>
+
+											<!-- register -->
+											
+											<!-- UserRegister -->
+											<div class="modal fade" id="UserRegister" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+															<h4 class="modal-title" id="myModalLabel">Register</h4>
+														</div>
+														<div class="modal-body">
+															<div class="form-signin">
+																<input type="text" class="form-control" name="user" id="Registerusername" placeholder="用户名">
+																<br>
+																<input type="password" class="form-control" name="password" placeholder="密码" id="Registerpassword">
+											
+															</div>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-default" data-toggle="modal" data-dismiss="modal" data-target="#TelRegister" >电话注册</button>
+															<button class="btn btn-primary" id="check" onclick="upregister()" type="submit">提交</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											
+											<!-- TelRegister -->
+											<div class="modal fade" id="TelRegister" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+															<h4 class="modal-title" id="myModalLabel">Tel Register</h4>
+														</div>
+														<div class="modal-body">
+															<div class="form-signin">
+																<input type="text" class="form-control" name="tel" id="Registertel" placeholder="电话号码">
+																<button type="button" class="btn btn-default" onclick="telcode()" id="getphonecode">获取验证码</button><br>
+																<input type="text" class="form-control" name="code" id="phonecode" placeholder="验证码">
+															</div>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-default" data-toggle="modal" data-dismiss="modal" data-target="#MailRegister">邮箱注册</button>
+															<button class="btn btn-primary" id="check" onclick="telregister()" type="submit">提交</button>
+														</div>
+													</div>
+												</div>
+											</div>
+												
+											<!-- MailRegister -->
+											<div class="modal fade" id="MailRegister" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+															<h4 class="modal-title" id="myModalLabel">Mail Register</h4>
+														</div>
+														<div class="modal-body">
+															<div class="form-signin">
+																<input type="text" class="form-control" name="mail" id="Registeremail" placeholder="邮箱">
+																<button type="button" class="btn btn-default" onclick="emailcode()" id="getmailcode">获取验证码</button>
+																<br>
+																<input type="text" class="form-control" name="code" id="mailcode" placeholder="验证码">
+
+															</div>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-default" data-toggle="modal" data-dismiss="modal" data-target="#UserRegister" >用户名注册</button>
+															<button class="btn btn-primary" id="check" onclick="telregister()" type="submit">提交</button>
+														</div>
+													</div>
+												</div>
+											</div>
+											
+											
+										</div>
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+
+
+					<!-- Javascript -->
+					<script src="assets/login/js/jquery-1.11.1.min.js"></script>
+					<script src="assets/login/bootstrap/js/bootstrap.min.js"></script>
+					<script src="assets/login/js/jquery.backstretch.min.js"></script>
+					<script src="assets/login/js/scripts.js"></script>
+					<script src="assets/js/login.js"></script>
+					<!--[if lt IE 10]>
+            <script src="assets/js/placeholder.js"></script>
+        <![endif]-->
+	</body>
+
+</html>
